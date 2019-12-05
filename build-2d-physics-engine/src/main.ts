@@ -10,7 +10,7 @@ let selectShapeGui: GUI | null = null
 
 gui.add(engine, 'addRect')
 gui.add(engine, 'addCircle')
-gui.add(engine, 'selectShape').onChange((val: number) => {
+gui.add(engine, 'selectShape', 0).onChange((val: number) => {
   const selectShape = engine.shapes[val]
   if (selectShape) {
     if (selectShapeGui) {

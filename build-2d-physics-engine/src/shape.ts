@@ -6,6 +6,14 @@ export class Shape {
   center: vec2 = vec2.create()
   angle: number = 0
 
+  get centerX () {
+    return this.center[0]
+  }
+
+  get centerY () {
+    return this.center[1]
+  }
+
   draw(engine: Engine) {}
 
   update (engine: Engine) {
@@ -28,21 +36,13 @@ export class Rectangle extends Shape {
     super()
   }
 
-  get x () {
-    return this.center[0] - this.width / 2
-  }
-
-  get y () {
-    return this.center[1] - this.height / 2
-  }
-
   draw (engine: Engine): void {
     const { context } = engine;
 
     context.save()
-    context.translate(this.x, this.y)
+    context.translate(this.centerX, this.centerY)
     context.rotate(this.angle)
-    context.strokeRect(0, 0, this.width, this.height)
+    context.strokeRect(-this.width / 2, -this.height / 2, this.width, this.height)
     context.restore()
   }
 }
@@ -52,21 +52,20 @@ export class Circle extends Shape {
     super()
   }
 
-  get x () {
-    return this.center[0]
-  }
+  get startPoint (): [number, number] {
+    const x = this.centerX + this.radius * Math.cos(this.angle)
+    const y = this.centerY + this.radius * Math.sin(this.angle)
 
-  get y () {
-    return this.center[1]
+    return [x, y]
   }
 
   draw ({ context }: Engine) : void {
     context.save()
     context.beginPath()
 
-    context.arc(this.x, this.y, this.radius, 0, Math.PI * 2, true)
-    context.moveTo(this.x, this.y - this.radius)
-    context.lineTo(this.x, this.y)
+    context.arc(this.centerX, this.centerY, this.radius, 0, Math.PI * 2, true)
+    context.moveTo(...this.startPoint)
+    context.lineTo(this.centerX, this.centerY)
 
     context.closePath()
     context.stroke()
