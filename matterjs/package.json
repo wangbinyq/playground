@@ -1,0 +1,9 @@
+{
+  "devDependencies": {
+    "typescript": "^3.7.3"
+  },
+  "dependencies": {
+    "@types/matter-js": "^0.10.4",
+    "matter-js": "^0.14.2"
+  }
+}
