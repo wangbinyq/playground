@@ -1,24 +1,27 @@
-import { Core } from "./core";
+import { Engine } from "./engine";
+import { Rectangle, Circle } from "./shape";
+import { vec2 } from "gl-matrix";
 
-export function addRect(core: Core) {
-  const { context, width, height } = core
+export function addRect(engine: Engine) {
+  const { width, height } = engine
 
-  context.strokeRect(
-    Math.random() * width * 0.8,
-    Math.random() * height * 0.8,
+  engine.addShape(new Rectangle(
+    vec2.fromValues(
+      Math.random() * width * 0.8,
+      Math.random() * height * 0.8,
+    ),
     Math.random() * 30 + 10,
     Math.random() * 30 + 10
-  )
+  ))
 }
 
-export function addCircle(core: Core) {
-  const { context, width, height } = core
-  context.beginPath()
-  context.arc(
-    Math.random() * width * 0.8,
-    Math.random() * height * 0.8,
-    Math.random() * 30 + 10, 0, Math.PI * 2, true
-  )
-  context.closePath()
-  context.stroke()
+export function addCircle(engine: Engine) {
+  const { width, height } = engine
+
+  engine.addShape(new Circle(
+    vec2.fromValues(
+      Math.random() * width * 0.8,
+      Math.random() * height * 0.8,),
+      Math.random() * 30 + 10,
+  ))
 }

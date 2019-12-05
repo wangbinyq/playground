@@ -2,6 +2,16 @@
 # yarn lockfile v1
 
 
+"@types/gl-matrix@^2.4.5":
+  version "2.4.5"
+  resolved "https://registry.npm.taobao.org/@types/gl-matrix/download/@types/gl-matrix-2.4.5.tgz#80630d88fb74ff8897a2a2855a8a700e6ee19d3e"
+  integrity sha1-gGMNiPt0/4iXoqKFWopwDm7hnT4=
+
+gl-matrix@^3.1.0:
+  version "3.1.0"
+  resolved "https://registry.npm.taobao.org/gl-matrix/download/gl-matrix-3.1.0.tgz#f5b2de17d8fed95a79e5025b10cded0ab9ccbed0"
+  integrity sha1-9bLeF9j+2Vp55QJbEM3tCrnMvtA=
+
 typescript@^3.7.3:
   version "3.7.3"
   resolved "https://registry.npm.taobao.org/typescript/download/typescript-3.7.3.tgz#b36840668a16458a7025b9eabfad11b66ab85c69"
