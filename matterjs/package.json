@@ -3,7 +3,9 @@
     "typescript": "^3.7.3"
   },
   "dependencies": {
+    "@types/dat.gui": "^0.7.5",
     "@types/matter-js": "^0.10.4",
+    "dat.gui": "^0.7.6",
     "matter-js": "^0.14.2"
   }
 }

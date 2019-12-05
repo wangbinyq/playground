@@ -2,10 +2,20 @@
 # yarn lockfile v1
 
 
+"@types/dat.gui@^0.7.5":
+  version "0.7.5"
+  resolved "https://registry.npm.taobao.org/@types/dat.gui/download/@types/dat.gui-0.7.5.tgz#8f4f87300ae553a57b246a7bf1b9fe5e13ca8b79"
+  integrity sha1-j0+HMArlU6V7JGp78bn+XhPKi3k=
+
 "@types/matter-js@^0.10.4":
   version "0.10.4"
   resolved "https://registry.npm.taobao.org/@types/matter-js/download/@types/matter-js-0.10.4.tgz#dc8454c637d050662015933db6e27a06bed9d218"
   integrity sha1-3IRUxjfQUGYgFZM9tuJ6Br7Z0hg=
+
+dat.gui@^0.7.6:
+  version "0.7.6"
+  resolved "https://registry.npm.taobao.org/dat.gui/download/dat.gui-0.7.6.tgz#92182a0f2dc96c26910f888238d3839166d82f76"
+  integrity sha1-khgqDy3JbCaRD4iCONODkWbYL3Y=
 
 matter-js@^0.14.2:
   version "0.14.2"
