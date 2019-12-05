@@ -17,3 +17,6 @@
 ### Rigid Circle Class
 - radius
 - reference line can visualize the rotation angle of a cirlce
+
+## Engine Loop
+- input, update, draw

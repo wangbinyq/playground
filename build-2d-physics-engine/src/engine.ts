@@ -1,10 +1,11 @@
 import { Shape } from "./shape"
+import { addRect, addCircle } from "./control"
 
 export class Engine {
   context: CanvasRenderingContext2D
   width: number
   height: number
-  selectShape: number = -1
+  selectShape: number = 0.0
   shapes: Shape[] = []
 
   constructor(public canvas: HTMLCanvasElement) {
@@ -15,6 +16,14 @@ export class Engine {
 
   addShape(shape :Shape) {
     this.shapes.push(shape)
+  }
+
+  addRect () {
+    addRect(this)
+  }
+
+  addCircle () {
+    addCircle(this)
   }
 
   draw () {
@@ -29,8 +38,13 @@ export class Engine {
     })
   }
 
+  update () {
+    this.shapes.forEach(shape => shape.update(this))
+  }
+
   render () {
     requestAnimationFrame(() => this.render())
+    this.update()
     this.draw()
   }
 }
