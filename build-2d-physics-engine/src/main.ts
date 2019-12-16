@@ -7,33 +7,28 @@ const context = canvas.getContext('2d') as CanvasRenderingContext2D
 type vec = vec2 | [number, number]
 
 interface Matter {
+  radius: number,
   weight: number,
+
   position: vec,
   velocity: vec,
-  acceleration: vec,
 
   rotate: number,
   angularVelocity: number,
-  angularAcceleration: number,
 }
 
-interface CircleMatter extends Matter {
-  radius: number,
-}
 
-const circleMatter : CircleMatter = {
-  weight: 10,
-  position: [11, 11],
-  velocity: [0.05, 0.01],
-  acceleration: [1e-6, 2e-5],
+const circleMatter : Matter = {
+  weight: 0.1,
+  position: [200, 200],
+  velocity: [0, 0],
   radius: 10,
 
   rotate: 0,
-  angularVelocity: 1e-3,
-  angularAcceleration: 1e-6
+  angularVelocity: 0,
 }
 
-function drawCircle(circle: CircleMatter) {
+function drawCircle(circle: Matter) {
   context.save()
   context.translate(circle.position[0], circle.position[1])
   context.rotate(circle.rotate)
@@ -50,25 +45,45 @@ function drawCircle(circle: CircleMatter) {
   context.restore()
 }
 
+let force: vec = [1e-6, 9.8e-6]
 
 let lastTime = 0
 function run (time: number) {
-  const elipse = time - lastTime
+  const delta = time - lastTime
+
+  let [ x, y ] = circleMatter.position as any
+  let [ vx, vy ] = circleMatter.velocity as any
+
+  if (x < 0) {
+    x = 0
+    vx = -vx
+  } else if (x > width) {
+    x = width
+    vx = - vx
+  }
+  
+  if (y < 0) {
+    y = 0
+    vy = -vy
+  } else if (y > height) {
+    y = height
+    vy = -vy
+  }
   
   circleMatter.velocity = vec2.add(
     vec2.create(),
-    circleMatter.velocity,
-    [elipse * circleMatter.acceleration[0], elipse * circleMatter.acceleration[1]]
+    [vx, vy],
+    [delta * force[0] / circleMatter.weight, delta * force[1] / circleMatter.weight]
   )
 
   circleMatter.position = vec2.add(
     vec2.create(),
-    circleMatter.position,
-    [elipse * circleMatter.velocity[0], elipse * circleMatter.velocity[1]]
+    [x, y],
+    [delta * circleMatter.velocity[0], delta * circleMatter.velocity[1]]
   )
 
-  circleMatter.angularVelocity += elipse * circleMatter.angularAcceleration
-  circleMatter.rotate += elipse * circleMatter.angularVelocity
+  circleMatter.angularVelocity += delta * 0
+  circleMatter.rotate += delta * circleMatter.angularVelocity
 
   lastTime = time
 }
