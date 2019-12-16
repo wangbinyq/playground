@@ -1,33 +1,65 @@
-import { Engine } from './engine'
-import { Rectangle } from './shape'
 import { vec2 } from 'gl-matrix'
-import { GUI } from 'dat.gui'
 
-const engine = new Engine(document.getElementById('canvas') as any)
+const canvas = document.getElementById('canvas') as HTMLCanvasElement
+const { height, width } = canvas
+const context = canvas.getContext('2d') as CanvasRenderingContext2D
 
-const gui = new GUI()
-let selectShapeGui: GUI | null = null
+type vec = vec2 | [number, number]
 
-gui.add(engine, 'addRect')
-gui.add(engine, 'addCircle')
-gui.add(engine, 'selectShape', 0).onChange((val: number) => {
-  const selectShape = engine.shapes[val]
-  if (selectShape) {
-    if (selectShapeGui) {
-      gui.removeFolder(selectShapeGui)
-    }
-    selectShapeGui = gui.addFolder('shape')
-    selectShapeGui.add(selectShape.center, '0')
-    selectShapeGui.add(selectShape.center, '1')
-    selectShapeGui.add(selectShape, 'angle', 0.0, Math.PI * 2, 0.001)
-  }
-})
+interface Matter {
+  weight: number,
+  position: vec,
+  velocity: vec,
+  acceleration: vec,
+  rotate: number,
+}
 
-const up = new Rectangle(vec2.fromValues(engine.width / 2, 0), engine.width, 3, true)
-const bottom = new Rectangle(vec2.fromValues(engine.width / 2, engine.height), engine.width, 3, true)
-const left = new Rectangle(vec2.fromValues(0, engine.height / 2), 3, engine.height, true)
-const right = new Rectangle(vec2.fromValues(engine.width, engine.height / 2), 3, engine.height, true)
+interface CircleMatter extends Matter {
+  radius: number,
+}
 
-;[up, bottom, left, right].forEach(shape => engine.addShape(shape))
+const circleMatter : CircleMatter = {
+  weight: 10,
+  position: [11, 11],
+  velocity: [0.05, 0.01],
+  acceleration: [1e-6, 2e-5],
+  radius: 10,
+  rotate: 0,
+}
 
-engine.render()
+function drawCircle(circle: CircleMatter) {
+  context.beginPath()
+  context.arc(circle.position[0], circle.position[1], circle.radius, 0, 2 * Math.PI)
+  context.stroke()
+  context.closePath()
+}
+
+
+let lastTime = 0
+function run (time: number) {
+  const elipse = time - lastTime
+  
+  circleMatter.velocity = vec2.add(
+    vec2.create(),
+    circleMatter.velocity,
+    [elipse * circleMatter.acceleration[0], elipse * circleMatter.acceleration[1]]
+  )
+
+  circleMatter.position = vec2.add(
+    vec2.create(),
+    circleMatter.position,
+    [elipse * circleMatter.velocity[0], elipse * circleMatter.velocity[1]]
+  )
+
+  lastTime = time
+}
+
+function render (time: number) {
+  requestAnimationFrame(render)
+  run(time)
+
+  context.clearRect(0, 0, width, height)
+  drawCircle(circleMatter)
+}
+
+render(lastTime)
