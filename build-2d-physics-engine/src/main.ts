@@ -11,7 +11,10 @@ interface Matter {
   position: vec,
   velocity: vec,
   acceleration: vec,
+
   rotate: number,
+  angularVelocity: number,
+  angularAcceleration: number,
 }
 
 interface CircleMatter extends Matter {
@@ -24,14 +27,27 @@ const circleMatter : CircleMatter = {
   velocity: [0.05, 0.01],
   acceleration: [1e-6, 2e-5],
   radius: 10,
+
   rotate: 0,
+  angularVelocity: 1e-3,
+  angularAcceleration: 1e-6
 }
 
 function drawCircle(circle: CircleMatter) {
+  context.save()
+  context.translate(circle.position[0], circle.position[1])
+  context.rotate(circle.rotate)
   context.beginPath()
-  context.arc(circle.position[0], circle.position[1], circle.radius, 0, 2 * Math.PI)
+  context.lineTo(0, circle.radius)
   context.stroke()
   context.closePath()
+
+  context.beginPath()
+  context.moveTo(0, 0)
+  context.arc(0, 0, circle.radius, 0, 2 * Math.PI)
+  context.stroke()
+  context.closePath()
+  context.restore()
 }
 
 
@@ -50,6 +66,9 @@ function run (time: number) {
     circleMatter.position,
     [elipse * circleMatter.velocity[0], elipse * circleMatter.velocity[1]]
   )
+
+  circleMatter.angularVelocity += elipse * circleMatter.angularAcceleration
+  circleMatter.rotate += elipse * circleMatter.angularVelocity
 
   lastTime = time
 }
